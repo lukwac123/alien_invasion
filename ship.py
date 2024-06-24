@@ -6,7 +6,8 @@ class Ship:
     def __init__(self, ai_game):
         """Inicjacja statku kosmicznego i jego położenie początkowe."""
         self.screen = ai_game.screen
-        self.settings = ai_game.settings()
+        self.settings = ai_game.settings
+        self.screen_rect = ai_game.screen.get_rect()
 
         # Wczytywanie obrazu statku kosmicznego i pobranie jego prostokąta.
         self.image = pygame.image.load('images/ship.bmp')
