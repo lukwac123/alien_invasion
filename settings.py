@@ -11,6 +11,7 @@ class Settings:
 
         # Ustawienia dotyczące statku
         self.ship_speed = 1.5
+        self.ship_limit = 3
 
         # Ustawienia dotyczące pocisku.
         self.bullet_speed = 2.0
