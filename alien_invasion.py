@@ -85,6 +85,30 @@ class AlienInvasion:
         self.bullets.update()
 
 
+        # Usunięcie pocisków, które znajdują się poza ekranem.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+        # Sprawdzenie czy działa poprawnie usuwanie pocisków, które znajdą się poza ekranem
+        # print(len(self.bullets))
+
+        self._check_bullet_alien_collisions()
+
+    def _check_bullet_alien_collisions(self):
+        """Reakcja na kolizję między pociskiem i obcym."""       
+        # Sprawdzenie, czy którykolwiek pocisk trafił obcego.
+        # Jeżeli tak, usuwamy zarówno pocisk jak i obcego.
+        # Jeżeli chcemy utworzyć superpocisk, który po zestrzeleniu pierwszego obcego
+        # poleci dalej to pierwszą z wartości True zmieniamy na False.
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+
+        if not self.aliens:
+            # Pozbycie się istniejących pocisków i utworzenie nowej floty.
+            self.bullets.empty()
+            self._create_fleet()
+
+
     def _update_aliens(self):
         """
         Sprawdzanie, czy flota obcych znajduje się przy krawędzi,
@@ -93,13 +117,6 @@ class AlienInvasion:
         self._check_fleet_edges()
         self.aliens.update()
 
-
-        # Usunięcie pocisków, które znajdują się poza ekranem.
-        for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
-                self.bullets.remove(bullet)
-        # Sprawdzenie czy działa poprawnie usuwanie pocisków, które znajdą się poza ekranem
-        # print(len(self.bullets))
 
 
     def _create_fleet(self):
