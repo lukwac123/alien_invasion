@@ -37,7 +37,7 @@ class AlienInvasion:
 
 
         # Uruchomienie gry "Inwazja obcych" w stanie aktywnym.
-        self.game_active = True
+        self.game_active = False
 
 
     def _ship_hit(self):
