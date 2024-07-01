@@ -5,6 +5,7 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -26,8 +27,10 @@ class AlienInvasion:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Inwazja obcych")
 
-        # Utworzenie egzemplarza przechowującego dane statystyczne dotyczące gry.
+        # Utworzenie egzemplarza przechowującego dane statystyczne dotyczące gry oraz
+        # utworzenie egzemplarza klasy Scoreboard.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
         
 
         self.ship = Ship(self)
@@ -114,6 +117,7 @@ class AlienInvasion:
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.game_active = True
+            self.sb.prep_score()
 
 
             # Ukrycie kursora myszy.
@@ -179,6 +183,13 @@ class AlienInvasion:
         # Jeżeli chcemy utworzyć superpocisk, który po zestrzeleniu pierwszego obcego
         # poleci dalej to pierwszą z wartości True zmieniamy na False.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
 
 
         if not self.aliens:
@@ -258,7 +269,11 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
 
 
-        # Wyświetlanie przycisku tylko wtedy gdy gra jest nie aktywna.
+        # Wyświetlanie informacji o punktacji.
+        self.sb.show_score()
+
+
+        # Wyświetlanie przycisku tylko wtedy gdy gra jest nieaktywna.
         if not self.game_active:
             self.play_button.draw_button()
 
