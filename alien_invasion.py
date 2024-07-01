@@ -111,6 +111,7 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
             # Wyzerowanie danych statystycznych gry.
+            self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.game_active = True
 
@@ -181,9 +182,10 @@ class AlienInvasion:
 
 
         if not self.aliens:
-            # Pozbycie się istniejących pocisków i utworzenie nowej floty.
+            # Usunięcie istniejących pocisków, przyspieszenie gry i utworzenie nowej floty.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
 
     def _update_aliens(self):
