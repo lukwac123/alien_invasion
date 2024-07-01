@@ -118,6 +118,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
 
 
             # Ukrycie kursora myszy.
@@ -197,6 +198,11 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+
+
+            # Inkrementacja numeru poziomu.
+            self.stats.level += 1
+            self.sb.prep_level()
 
 
     def _update_aliens(self):
